@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dylan's Tutoring</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #F2F3F5;
+      --bg2:      #EAECF0;
+      --white:    #FFFFFF;
+      --card:     #FFFFFF;
+      --border:   #DDE1E9;
+      --text:     #141416;
+      --muted:    #6B7280;
+      --accent:   #2563EB;
+      --accent2:  #1D4ED8;
+      --gold:     #F59E0B;
+      --green:    #10B981;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.07);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.09);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+      background: rgba(242,243,245,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.45rem 1.2rem;
+      border-radius: 6px;
+    }
+
+    .nav-cta:hover { background: var(--accent2) !important; color: #fff !important; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #home::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, #CBD5E1 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.55;
+      z-index: 0;
+    }
+
+    #home::after {
+      content: '';
+      position: absolute;
+      top: -80px; right: -120px;
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(37,99,235,0.12), transparent 70%);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: rgba(37,99,235,0.08);
+      border: 1px solid rgba(37,99,235,0.2);
+      padding: 0.35rem 1rem;
+      border-radius: 30px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -2px;
+      animation: fadeUp 0.55s 0.08s ease both;
+    }
+
+    .hero-title .accent { color: var(--accent); }
+
+    .hero-sub {
+      margin-top: 1.4rem;
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 500px;
+      animation: fadeUp 0.55s 0.16s ease both;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.8rem;
+      animation: fadeUp 0.55s 0.24s ease both;
+    }
+
+    .chip {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.38rem 0.9rem;
+      border-radius: 30px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.2rem;
+      animation: fadeUp 0.55s 0.32s ease both;
+    }
+
+    .btn {
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(37,99,235,0.35);
+    }
+
+    .btn-ghost {
+      background: var(--white);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      animation: fadeUp 0.55s 0.4s ease both;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 3rem; }
+
+    .section-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── SUBJECTS ── */
+    #subjects { background: var(--white); }
+
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .subject-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      transition: all 0.25s;
+    }
+
+    .subject-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+      background: var(--white);
+    }
+
+    .subject-icon { font-size: 2rem; margin-bottom: 0.9rem; }
+
+    .subject-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+
+    .subject-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    .subject-tag {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(37,99,235,0.08);
+      padding: 0.25rem 0.7rem;
+      border-radius: 30px;
+    }
+
+    /* ── PACKAGES ── */
+    #packages { background: var(--bg2); }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .pkg-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 2.2rem;
+      position: relative;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+
+    .pkg-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+
+    .pkg-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12), var(--shadow-md);
+    }
+
+    .pkg-popular {
+      position: absolute;
+      top: -13px; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: #fff;
+      background: var(--accent);
+      padding: 0.3rem 1.1rem;
+      border-radius: 30px;
+      white-space: nowrap;
+    }
+
+    .pkg-tier {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .pkg-tier.basic   { color: var(--muted); }
+    .pkg-tier.premium { color: var(--accent); }
+    .pkg-tier.ultimate{ color: var(--gold);  }
+
+    .pkg-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+
+    .pkg-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin: 0.8rem 0 0.2rem;
+    }
+
+    .pkg-price span { font-size: 1rem; font-weight: 500; color: var(--muted); }
+
+    .pkg-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+
+    .pkg-divider { border: none; border-top: 1px solid var(--border); margin: 1.4rem 0; }
+
+    .pkg-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .pkg-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .check {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      margin-top: 1px;
+    }
+
+    .check-blue  { background: rgba(37,99,235,0.1);  color: var(--accent); }
+    .check-gold  { background: rgba(245,158,11,0.12); color: var(--gold);  }
+
+    .pkg-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0.85rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pkg-btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+    }
+
+    .pkg-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .pkg-btn-solid {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.28);
+    }
+
+    .pkg-btn-solid:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    .pkg-btn-gold {
+      background: var(--gold);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(245,158,11,0.3);
+    }
+
+    .pkg-btn-gold:hover { background: #d97706; transform: translateY(-1px); }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--white); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .step-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+    }
+
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(37,99,235,0.1);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .about-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #60a5fa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 1.3rem;
+      box-shadow: 0 0 0 5px rgba(37,99,235,0.1);
+    }
+
+    .about-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .about-role {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .sport-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+
+    .sport-chip {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: 30px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      color: var(--text);
+    }
+
+    .about-text p {
+      font-size: 0.97rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.1rem;
+    }
+
+    .about-text p strong { color: var(--text); }
+
+    .highlights { margin-top: 1.8rem; display: flex; flex-direction: column; gap: 0.8rem; }
+
+    .hl { display: flex; align-items: center; gap: 0.8rem; font-size: 0.92rem; font-weight: 500; }
+
+    .hl-icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: rgba(37,99,235,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--white); }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.8rem;
+    }
+
+    .contact-info p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.8rem;
+    }
+
+    .contact-detail .icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: rgba(37,99,235,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .contact-form {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 2.2rem;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .form-group { margin-bottom: 1rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      padding: 0.72rem 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .form-submit {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+    }
+
+    .form-submit:hover { background: var(--accent2); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.5);
+      padding: 2rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; color: #fff; }
+    .footer-logo span { color: #60a5fa; }
+    footer p { font-size: 0.8rem; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-inner, .contact-wrap { grid-template-columns: 1fr; gap: 2rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">Dylan<span>.</span>Tutoring</a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#subjects">Subjects</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Book Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-content">
+    <div class="hero-tag">NJHS Member &amp; In-School Tutor</div>
+    <h1 class="hero-title">Unlock Your<br><span class="accent">Best Grades.</span></h1>
+    <p class="hero-sub">Expert, one-on-one tutoring across 5 subjects from a top student, 3-sport athlete, and National Junior Honor Society member who knows how to make things click.</p>
+    <div class="hero-chips">
+      <span class="chip">📐 Math</span>
+      <span class="chip">🔬 Science</span>
+      <span class="chip">📖 English</span>
+      <span class="chip">🇫🇷 French</span>
+      <span class="chip">🌎 Social Studies</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#packages" class="btn btn-primary">View Packages</a>
+      <a href="#about" class="btn btn-ghost">About Dylan</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">5</div><div class="stat-label">Subjects</div></div>
+      <div><div class="stat-num">A+</div><div class="stat-label">GPA</div></div>
+      <div><div class="stat-num">NJHS</div><div class="stat-label">Member</div></div>
+      <div><div class="stat-num">3</div><div class="stat-label">Sports</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECTS -->
+<section id="subjects">
+  <div class="section-eyebrow">What I Teach</div>
+  <h2 class="section-title">Subjects I Cover</h2>
+  <p class="section-desc">Every session is built around your actual assignments, tests, and goals — not a generic lesson plan.</p>
+  <div class="subjects-grid">
+    <div class="subject-card">
+      <div class="subject-icon">📐</div>
+      <div class="subject-name">Math</div>
+      <p class="subject-desc">Pre-algebra, algebra, geometry and more. I'll walk you through the logic until it actually makes sense.</p>
+      <span class="subject-tag">Pre-Algebra · Algebra · Geometry</span>
+    </div>
+    <div class="subject-card">
+      <div class="subject-icon">🔬</div>
+      <div class="subject-name">Science</div>
+      <p class="subject-desc">Life, earth, and physical science — concepts, labs, and test prep all covered.</p>
+      <span class="subject-tag">Life · Earth · Physical Science</span>
+    </div>
+    <div class="subject-card">
+      <div class="subject-icon">📖</div>
+      <div class="subject-name">English</div>
+      <p class="subject-desc">Essays, reading comprehension, grammar, and writing — I'll help you score higher on every assignment.</p>
+      <span class="subject-tag">Reading · Writing · Grammar</span>
+    </div>
+    <div class="subject-card">
+      <div class="subject-icon">🇫🇷</div>
+      <div class="subject-name">French</div>
+      <p class="subject-desc">Vocabulary, verb conjugation, pronunciation, and conversational practice. Oui, we've got this.</p>
+      <span class="subject-tag">Beginner · Intermediate</span>
+    </div>
+    <div class="subject-card">
+      <div class="subject-icon">🌎</div>
+      <div class="subject-name">Social Studies</div>
+      <p class="subject-desc">US history, world history, civics — understand the big picture and nail the details on every test.</p>
+      <span class="subject-tag">US History · World History · Civics</span>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="section-eyebrow">Pricing</div>
+  <h2 class="section-title">Choose Your Package</h2>
+  <p class="section-desc">Flexible options whether you need quick help or a full grade transformation. All sessions are personalized to you.</p>
+  <div class="packages-grid">
+
+    <!-- BASIC -->
+    <div class="pkg-card">
+      <div class="pkg-tier basic">Basic</div>
+      <div class="pkg-name">Starter</div>
+      <div class="pkg-price">$25<span> / session</span></div>
+      <p class="pkg-note">Best for quick homework help or test prep</p>
+      <hr class="pkg-divider"/>
+      <ul class="pkg-features">
+        <li><span class="check check-blue">✓</span> 1 tutoring session (45 min)</li>
+        <li><span class="check check-blue">✓</span> 1 subject per session</li>
+        <li><span class="check check-blue">✓</span> Homework &amp; quiz help</li>
+        <li><span class="check check-blue">✓</span> Practice problems provided</li>
+        <li><span class="check check-blue">✓</span> Session recap notes</li>
+      </ul>
+      <a href="#contact" class="pkg-btn pkg-btn-outline">Get Started</a>
+    </div>
+
+    <!-- PREMIUM -->
+    <div class="pkg-card featured">
+      <div class="pkg-popular">⭐ Most Popular</div>
+      <div class="pkg-tier premium">Premium</div>
+      <div class="pkg-name">Pro Plan</div>
+      <div class="pkg-price">$75<span> / month</span></div>
+      <p class="pkg-note">4 sessions/month — consistent grade improvement</p>
+      <hr class="pkg-divider"/>
+      <ul class="pkg-features">
+        <li><span class="check check-blue">✓</span> 4 sessions/month (1 hr each)</li>
+        <li><span class="check check-blue">✓</span> Up to 2 subjects covered</li>
+        <li><span class="check check-blue">✓</span> Custom study plan built for you</li>
+        <li><span class="check check-blue">✓</span> Homework, quiz &amp; test prep</li>
+        <li><span class="check check-blue">✓</span> Practice worksheets &amp; notes</li>
+        <li><span class="check check-blue">✓</span> Progress check-in each session</li>
+        <li><span class="check check-blue">✓</span> Text Q&amp;A support between sessions</li>
+      </ul>
+      <a href="#contact" class="pkg-btn pkg-btn-solid">Book Premium</a>
+    </div>
+
+    <!-- ULTIMATE -->
+    <div class="pkg-card">
+      <div class="pkg-tier ultimate">Ultimate</div>
+      <div class="pkg-name">Elite Plan</div>
+      <div class="pkg-price">$130<span> / month</span></div>
+      <p class="pkg-note">8 sessions/month — full academic transformation</p>
+      <hr class="pkg-divider"/>
+      <ul class="pkg-features">
+        <li><span class="check check-gold">✓</span> 8 sessions/month (1 hr each)</li>
+        <li><span class="check check-gold">✓</span> All 5 subjects covered</li>
+        <li><span class="check check-gold">✓</span> Full personalized study schedule</li>
+        <li><span class="check check-gold">✓</span> Weekly progress reports</li>
+        <li><span class="check check-gold">✓</span> Priority scheduling &amp; flexibility</li>
+        <li><span class="check check-gold">✓</span> Exam &amp; standardized test prep</li>
+        <li><span class="check check-gold">✓</span> Unlimited text Q&amp;A support</li>
+        <li><span class="check check-gold">✓</span> Parent progress updates included</li>
+      </ul>
+      <a href="#contact" class="pkg-btn pkg-btn-gold">Go Elite</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-eyebrow">The Process</div>
+  <h2 class="section-title">How It Works</h2>
+  <p class="section-desc">Simple, no-stress setup — like a game plan before the big game.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-title">Reach Out</div>
+      <p>Fill out the contact form with your name, subject, and what you need help with.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-title">Pick a Package</div>
+      <p>Choose Basic, Premium, or Ultimate based on how much support you're looking for.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-title">Schedule Up</div>
+      <p>We'll lock in a time that works — before school, after school, or on weekends.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-title">Level Up</div>
+      <p>Watch your grades rise and your confidence grow — one session at a time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-eyebrow">Who I Am</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-inner">
+    <div class="about-card">
+      <div class="about-avatar">D</div>
+      <div class="about-name">Dylan</div>
+      <div class="about-role">Tutor · Athlete · NJHS Member</div>
+      <p style="color:var(--muted); font-size:0.9rem; line-height:1.65;">Middle schooler with excellent grades and a drive to help others win — in the classroom and on the field.</p>
+      <div class="sport-chips">
+        <span class="sport-chip">🏀 Basketball</span>
+        <span class="sport-chip">⚾ Baseball</span>
+        <span class="sport-chip">🏃 Track</span>
+        <span class="sport-chip">📚 NJHS</span>
+      </div>
+    </div>
+
+    <div class="about-text">
+      <p>Hey! I'm <strong>Dylan</strong> — a middle school student who takes school seriously and loves to compete. I play <strong>basketball, baseball, and run track</strong>, so I know what it takes to work hard and see real results.</p>
+      <p>I'm a proud member of the <strong>National Junior Honor Society (NJHS)</strong> and already tutor students through my school's official tutoring program. I know the curriculum, what teachers actually test on, and how to explain things so they actually stick.</p>
+      <p>Whether you want to bring up a grade, prep for a test, or finally understand something confusing — I've got you. Let's put in the work.</p>
+      <div class="highlights">
+        <div class="hl"><div class="hl-icon">🏅</div><span>National Junior Honor Society (NJHS) Member</span></div>
+        <div class="hl"><div class="hl-icon">🏫</div><span>Official in-school tutor with real experience</span></div>
+        <div class="hl"><div class="hl-icon">🏆</div><span>3-sport athlete — basketball, baseball &amp; track</span></div>
+        <div class="hl"><div class="hl-icon">📈</div><span>Excellent academic record across all subjects</span></div>
+        <div class="hl"><div class="hl-icon">💬</div><span>Patient, encouraging, and easy to learn from</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-eyebrow">Get In Touch</div>
+  <h2 class="section-title">Book a Session</h2>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <h3>Ready to raise your grade?</h3>
+      <p>Fill out the form and I'll get back to you quickly to lock in a time. All sessions are flexible and built around your schedule.</p>
+      <div class="contact-detail"><span class="icon">📍</span> New Jersey, USA</div>
+      <div class="contact-detail"><span class="icon">⏰</span> After school &amp; weekends</div>
+      <div class="contact-detail"><span class="icon">📚</span> In-person or virtual available</div>
+      <div class="contact-detail"><span class="icon">⚡</span> Response within 24 hours</div>
+    </div>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Alex"/>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Johnson"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email or Phone</label>
+        <input type="text" placeholder="your@email.com"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Subject</label>
+          <select>
+            <option value="">Select...</option>
+            <option>Math</option>
+            <option>Science</option>
+            <option>English</option>
+            <option>French</option>
+            <option>Social Studies / History</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Package</label>
+          <select>
+            <option value="">Select...</option>
+            <option>Basic — $25/session</option>
+            <option>Premium — $75/month</option>
+            <option>Ultimate — $130/month</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>What do you need help with?</label>
+        <textarea placeholder="e.g. I have a math test on fractions next week and I keep getting confused..."></textarea>
+      </div>
+      <button class="form-submit">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Dylan<span>.</span>Tutoring</div>
+  <p>© 2025 Dylan's Tutoring · Built with 💙</p>
+</footer>
+
+</body>
+</html>
